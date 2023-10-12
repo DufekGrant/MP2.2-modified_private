@@ -11,7 +11,12 @@ def load_ranker(cfg_file):
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-    return metapy.index.OkapiBM25()
+    return(metapy.index.OkapiBM25(1.431,1,5))
+    #return(metapy.index.DirichletPrior())
+    #return(metapy.index.AbsoluteDiscount(fitted))
+    #return(metapy.index.PivotedLength())
+    #return(metapy.index.JelinekMercer())
+    #return metapy.index.OkapiBM25(k1=1.2,b=0.75,k3=500)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -21,7 +26,7 @@ if __name__ == '__main__':
     cfg = sys.argv[1]
     print('Building or loading index...')
     idx = metapy.index.make_inverted_index(cfg)
-    ranker = load_ranker(cfg)
+    ranker = load_ranker(cfg) #0.521, 0.3469271959299417
     ev = metapy.index.IREval(cfg)
 
     with open(cfg, 'r') as fin:
@@ -38,6 +43,9 @@ if __name__ == '__main__':
     query_start = query_cfg.get('query-id-start', 0)
 
     query = metapy.index.Document()
+
+
+    #for i in range(100)
     ndcg = 0.0
     num_queries = 0
 
